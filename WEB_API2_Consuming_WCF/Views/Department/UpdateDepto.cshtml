@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "UpdateDepto";
+
+}
+
+<h2>Aqui puedes actualizar los elementos de la lista</h2>
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#btnInsert").click(function () {
+            jQuery.support.cors = true;
+            var id = $("#txt1").val();
+            var departamento = $("#txt2").val();
+            var capital = $("#txt3").val();
+            $.ajax({
+
+                url: "http://localhost:60157/Service1.svc/rest/UpdateDepto",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ Id: id, Departamento: departamento, Capital: capital }),
+                //data: '{"id":" + id +", "Name":" + name + ","Address":" + address + "}',
+
+                success: function (resultdata) {
+                    alert("Insertado exitosamente");
+
+                },
+                //error: function (e) {
+                //    alert(e);
+                //}
+
+
+            });
+
+
+        });
+
+
+        $("#btn").click(function () {
+            $('#tb1 tbody').empty();
+            $.ajax({
+                url: "http://localhost:60157/Service1.svc/rest/GetDeptos",
+                type: "GET",
+                Accept: "application/json",
+                success: function (resultdata) {
+                    $.each(resultdata, function (k, v) {
+                        var id = v.Id;
+                        var departamento = v.Departamento;
+                        var capital = v.Capital;
+
+                        $("#tb2").append("<tr><td>" + id + "</td><td>" + departamento + "</td><td>" + capital + "</td ></tr>")
+                    });
+                },
+                error: function (e) {
+                    alert("something went wrong");
+                }
+
+            });
+        });
+
+
+
+    });
+</script>
+
+
+
+<br />
+<br />
+    Id: <input type="text" id="txt1" placeholder="Id que vas a actualizar" />
+    Departamento: <input type="text" id="txt2" placeholder="Departamento nuevo" />
+    Capital: <input type="text" id="txt3" placeholder=" Capital nueva " />
+<input type="button" value="Agregar" id="btnInsert" />
+<input type="button" id="btn" value="Ver Lista" />
+<br />
+<br />
+
+
+<br />
+<table id="tb1" border="1">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Departamento</th>
+            <th>Capital</th>
+        </tr>
+    </thead>
+
+    <tbody id="tb2"></tbody>
+</table>
+

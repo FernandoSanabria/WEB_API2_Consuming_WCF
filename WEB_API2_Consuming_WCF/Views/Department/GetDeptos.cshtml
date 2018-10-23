@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "GetDeptos";
+}
+
+<h2>GetDeptos</h2>
+
+<br />
+
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Departamento</th>
+        <th>Capital</th>
+    </tr>
+    @foreach (var item in ViewBag.List)
+    {
+        <tr>
+
+            <td>@item.Id</td>
+            <td>@item.Departamento</td>
+            <td>@item.Capital</td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "DeleteDepto";
+
+
+}
+
+
+<br />
+
+<h2>Aqui puedes borrar elementos de la lista</h2>
+
+<br />
+
+
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#btnInsert").click(function () {
+            jQuery.support.cors = true;
+            var id = $("#txt1").val();
+            var departamento = $("#txt2").val();
+            var capital = $("#txt3").val();
+            $.ajax({
+
+                url: "http://localhost:60157/Service1.svc/rest/InsertDep",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ Departamento: departamento, Capital: capital }),
+                //data: '{"id":" + id +", "Name":" + name + ","Address":" + address + "}',
+
+                success: function (resultdata) {
+                    alert("Insertado exitosamente");
+
+                },
+                //error: function (e) {
+                //    alert(e);
+                //}
+
+
+            });
+
+
+        });
+
+
+        $("#btn").click(function () {
+            $('#tb1 tbody').empty();
+            $.ajax({
+                url: "http://localhost:60157/Service1.svc/rest/GetDeptos",
+                type: "GET",
+                Accept: "application/json",
+                success: function (resultdata) {
+                    $.each(resultdata, function (k, v) {
+                        var id = v.Id;
+                        var departamento = v.Departamento;
+                        var capital = v.Capital;
+
+                        $("#tb2").append("<tr><td>" + id + "</td><td>" + departamento + "</td><td>" + capital + "</td ></tr>")
+                    });
+                },
+                error: function (e) {
+                    alert("something went wrong");
+                }
+
+            });
+        });
+
+
+
+    });
+</script>
+
+
+<form method="post" action="@Url.Action("DeleteDepto")">
+    Id:<input type="text" name="Id" style="width:20%; " placeholder="Ingresa el ID que quieres borrar" />
+    <br />
+    <br />
+    <input type="submit" value="Eliminar registro" />
+</form>
+<br />
+<input type="button" id="btn" value="Ver Lista" />
+<br />
+   
+<table id="tb1" border="1">
+    
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Departamento</th>
+            <th>Capital</th>
+        </tr>
+    </thead>
+
+    <tbody id="tb2"></tbody>
+</table>
+
